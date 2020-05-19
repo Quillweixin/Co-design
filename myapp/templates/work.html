@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    textarea{
+        width: 30rem;
+        height: 15rem;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center p-0">
+        <h5 class="text-center">Task: {{task.title}}</h5>
+    </div>
+    <hr>
+
+    <div class="text-center p-0 my-2 ">
+        <iframe src="https://viliusle.github.io/miniPaint/" style="width:100%; height:700px;"></iframe>
+    </div>
+    <hr>
+
+    <div class="d-flex justify-content-center">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="work" value="{{work}}">
+            {{form.description}}
+            <br>
+            {{form.image}} &nbsp;
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Upload">
+        </form>
+    </div>
+    <hr>
+
+    <div>
+    {% for work in all_works %}
+    <div class="row justify-content-center">
+        <img src="{% url 'work_image' work.id %}" style="width: 50%;" class="mb-3">
+    </div>
+    <div class="row justify-content-center">desription: {{work.description}}</div>
+    <div class="row justify-content-center">Author: {{work.author.owner.username}}</div>
+    <hr>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

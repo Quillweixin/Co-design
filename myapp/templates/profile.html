@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    #text{
+        width: 20rem;
+        height: 20rem;
+    }
+</style>
+
+<div class="container">
+    <!-- user info -->
+    <div class="row justify-content-center">
+        <h5 class="text-center">Profile for {{profile.owner.first_name}} {{profile.owner.last_name}}</h5>
+    </div>
+
+    <div class="d-flex align-items-stretch justify-content-around" id="user-info">
+        <div class="p-2">
+            <!-- fetch the avatar of the user -->
+            {% if profile.avatar %}
+            <img src="{% url 'get_avatar' profile.id %}" width="200px" >
+            {% else %}
+            <img src="{% static 'default.png' %}" width="200px" alt="Image Not Found">
+            {% endif %}
+            <!-- check if the user is the owner of this profile -->
+            {% if user.profile.id == profile_id%}
+            <form method="POST" enctype="multipart/form-data">
+                {{profile_form.avatar}}
+                <br><p></p>
+                <!-- <input type="hidden" name="avatar_upload" value="True" > -->
+                <input type="hidden" name='bio' value="{{profile.bio}}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Upload">
+            </form>
+            {% endif %}
+        </div>
+        <div class="p-2 my-2">
+            <p>User Name: {{profile.owner.username}}</p>
+            <p>First Name: {{profile.owner.first_name}}</p>
+            <p>Last Name: {{profile.owner.last_name}}</p>
+            <p>Email: {{profile.owner.email}}</p>
+            <p>Cedibility: {{profile.credibility}}</p>
+            <p>Tasks Finished: 0</p>
+        </div>
+    </div>
+
+    <hr>
+    <!-- user bio -->
+    <div class="row justify-content-center">
+        <h5 class="text-center">About {{profile.owner.first_name}}</h5>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        {% if user.profile.id == profile_id %}
+        <form method="POST" class="text-center">
+            <!-- <input type="hidden" name="avatar_upload" value="False"> -->
+            <textarea name="bio" maxlength="500" id="text" placeholder="Write something about you...">{{profile.bio}}</textarea>
+            {% csrf_token %}
+            <br>
+            <input type="submit" class="btn btn-primary" value="Upload">
+        </form>
+        {% else %}
+            <div class="border border-light">{{profile.bio}}</div>
+        {% endif %}
+    </div>
+    
+    <hr>
+
+    {% if user.profile.id == profile_id %}
+    <!-- requests -->
+    <div class="d-flex justify-content-center">
+        <h5 class="text-center">Requests in-progress</h5>
+    </div>
+
+    <div class="mb-5">
+        <table id="table" data-toggle="table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Title</th>
+                    <th>Budget($)</th>
+                    <th>Participants#</th>
+                    <th>Submission Received</th>
+                    <th>Created Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>
+                        <form action="{% url 'review' request.id %}" method="GET">
+                            <button type="submit" class="btn btn-primary">Review</button>
+                        </form>
+                    </td>
+                    <td>{{request.title}}</td>
+                    <td>{{request.budget}}</td>
+                    <td>{{request.workers.all.count}}</td>
+                    <td>{{request.works.all.count}}</td>
+                    <td>{{request.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+
+    <!-- Tasks -->
+    <div class="d-flex justify-content-center">
+        <h5 class="text-center">Tasks in-progress</h5>
+    </div>
+
+    <div>
+        <table id="table" data-toggle="table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Title</th>
+                    <th>Budget($)</th>
+                    <th>Start Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>
+                        <form action="{% url 'work' %}" method="GET">
+                            <input type="hidden" name="task_id" value="{{task.id}}">
+                            <button type="submit" class="btn btn-primary">Work On It!</button>
+                        </form>
+                    </td>
+                    <td>{{task.title}}</td>
+                    <td>{{task.budget}}</td>
+                    <td>{{task.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="text-center">Register</h3>
+<form class="text-center vertical-align" method="POST">
+    <table class="d-flex justify-content-center">
+        {{form}}
+    </table>
+    {% csrf_token %}
+    <button type="submit" id="id_register_button">Submit</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row justify-content-center p-0">
+        <h5 class="text-center">Task: {{task.title}}</h5>
+    </div>
+    <hr>
+
+    {% for work in works %}
+    <div class="row justify-content-center">
+        <div class="row justify-content-center">
+            <img src="{% url 'work_image' work.id %}" style="width: 60%;">
+        </div>
+    </div>
+    <div class="row justify-content-center">desription: {{work.description}}</div>
+    <div class="row justify-content-center">Author: {{work.author.owner.username}}</div>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}

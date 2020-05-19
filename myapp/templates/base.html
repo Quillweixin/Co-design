@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="utf-8">
+        <meta name="google-signin-client_id" content="853093462032-fgd38c64ibmpadt1edhd754e5cpa5f2l.apps.googleusercontent.com">
+        <title>Co_Design</title>
+        {% load static %}
+        <!-- Bootstrap table -->
+        <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+        <!-- Font Awesome CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            #name_of_the_site {
+                font-family: "Impact", Charcoal, sans-serif;
+                font-size: xx-large;
+                color: rgb(8, 124, 170);
+            }
+            #top{
+                background-color: rgb(233, 227, 227);
+            }
+        </style>
+    </head>
+    <body style="margin-bottom: 10rem;">
+        <div class="container py-2 my-3 text-muted text-white" id="top">
+            <div class="flex-row d-flex p-0 m-0">
+                <div class="col-3 p-0 m-0">
+                    <a class="col-2" id="name_of_the_site" href="{% url 'home' %}">Co-Design</a>
+                </div>
+                <div id="id_nav_bar" class="col-4 offset-6 align-self-end ">
+                    <a href="{% url 'about' %}">about</a> |
+                    {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}">login</a> | 
+                    <a href="{% url 'register' %}">register</a> |
+                    {% else %}
+                    <!-- show up when logged in  -->
+                    <span class="col-4 text-truncate-20">Hello, {{user.username}}</span>
+                    <div class="dropdown d-inline align-right">
+                        <button class="btn dropdown-toggle" type="button" id="id_show_nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="id_show_nav_button">
+                          <a class="dropdown-item" href="{% url 'tasks' %}">Tasks</a>
+                          <a class="dropdown-item" href="{% url 'post_request' %}">Post a request</a>
+                          <a class="dropdown-item" href="{% url 'profile' user.profile.id %}">Profile</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'login' %}">Logout</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- Google Platform Library -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <!-- bootstrap table -->
+        <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+    </body>
+
+</html>
+
+<!-- {% if user.is_authenticated %} {% endif %}-->

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <h5 class="text-center">{{task.title}}</h5>
+    </div>
+    <hr>
+
+    <div class="d-flex align-items-stretch mb-4">
+        <div class="mr-5"><strong>Description: </strong></div>
+        <div class="border border-light">
+            {{task.description}}
+        </div>
+    </div>
+    <hr>
+
+    <div class="d-flex align-items-stretch mb-4">
+        <div class="mr-5"><strong>Reference: </strong></div>
+        <div class="border border-light">
+            {% if task.image %}
+            <img src="{% url 'task_image' task.id %}" style="width: 600px;">
+            {% else %}
+            No reference files.
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+
+    <div class="d-flex justify-content-around mb-4">
+        <div><strong>Budget: </strong> $ {{task.budget}}</div>
+        <div><strong>Participants#: </strong> {{task.workers.all.count}}</div>
+        <div><strong>Status: </strong>
+            {% if user.profile in task.workers.all %}
+            Accepted
+            {% else %}
+            Available
+            {% endif %}
+        </div>
+
+    </div>
+    <hr>
+
+    <div class="d-flex justify-content-center">
+        <form method="POST" action="{% url 'accept_task' %}">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{task.id}}">
+                <button type="submit" class="btn btn-primary">Accept</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

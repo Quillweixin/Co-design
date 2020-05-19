@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    #description{
+        width: 35rem;
+        height: 25rem;
+    }
+</style>
+
+<div class="container">
+    <div class="form-group text-center">
+        <form method="POST" enctype="multipart/form-data">
+            <p><strong>Title</strong></p>
+            {{form.title}}
+            <hr>
+
+            <p><strong>Task Description</strong></p>
+            {{form.description}}
+            <hr>
+
+            <p><strong>Budget</strong></p>
+            {{form.budget}}
+            <hr>
+
+            <p><strong>Upload a reference</strong></p>
+            <div class="d-flex flex-row justify-content-center">
+                {{form.image}}
+            </div>
+            <hr>
+
+            {% csrf_token %}
+            <button type="submit">Make a Request</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

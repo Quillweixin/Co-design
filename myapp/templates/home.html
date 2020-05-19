@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h3>Sections</h3>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-5 shadow p-3 mb-5 bg-white rounded">
+            <i class="fa fa-tasks fa-2x" style="color:skyblue;"></i>
+            <a href="{% url 'tasks' %}"><h6>Accept A Task!</h6></a>
+        </div>
+
+        <div class="col-5 shadow p-3 mb-5 bg-white rounded">
+            <i class="fa fa-broadcast-tower fa-2x" style="color:skyblue;"></i>
+            {% if not user.is_authenticated %}
+            <a href="" onclick="login_required()"><h6>Post A Request!</h6></a>
+            {% else %}
+            <a href="{% url 'post_request' %}"><h6>Post A Request!</h6></a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-5 shadow p-3 mb-5 bg-white rounded">
+            <i class="fa fa-comment-dots fa-2x" style="color:skyblue;"></i>
+            <h6>Join A Topic!</h6>
+        </div>
+
+        <div class="col-5 shadow p-3 mb-5 bg-white rounded">
+            <i class="fa fa-lightbulb fa-2x" style="color:skyblue;"></i>
+            <h6>Looks for Inspiration!</h6>
+        </div>
+    </div>
+</div>
+
+<script>
+    function login_required(){
+        alert("Login Required !");
+    }
+</script>
+
+{% endblock %}
